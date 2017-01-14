@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+
 /// A Multiboot tag structure is a queryable blob of bytes. The implementation presently
 /// assumes that the size is at least 8 bytes (for the end tag), and does not check this.
 pub enum TagType {

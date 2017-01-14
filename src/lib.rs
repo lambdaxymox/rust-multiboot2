@@ -1,3 +1,10 @@
+//! Multiboot v2 library
+//!
+//! # Additional documentation
+//!   * http://nongnu.askapache.com/grub/phcoder/multiboot.pdf
+//!
+//!
+
 #![no_std]
 
 /// TODO: Add sanity checks for strings, i.e. Check that they are null terminated.
