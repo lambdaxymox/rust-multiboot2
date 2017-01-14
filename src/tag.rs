@@ -1,5 +1,5 @@
 #![allow(dead_code)]
-/// A Multiboot tag structure is just a queryable blob of bytes. The implementation presently
+/// A Multiboot tag structure is a queryable blob of bytes. The implementation presently
 /// assumes that the size is at least 8 bytes (for the end tag), and does not check this.
 pub enum TagType {
 	BootCommandLine   = 1,
@@ -16,13 +16,13 @@ pub enum TagType {
 
 
 #[repr(C)]
-struct Tag {
+pub struct Tag {
 	tag_type: u32,
 	size: u32,
 	// The tag data follows these two fields.
 }
 
-struct TagIter {
+pub struct TagIter {
 	current: *const Tag
 }
 
@@ -37,6 +37,7 @@ impl Iterator for TagIter {
 				// Jump to the next tag.
 				let mut tag_address = self.current as usize;
 				tag_address += tag.size as usize;
+				// Align tag to 64 bit address.
 				tag_address = ((tag_address - 1) & !0x07) + 0x08;
 				self.current = tag_address as *const Tag;
 
