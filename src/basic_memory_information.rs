@@ -1,6 +1,8 @@
 use tag::TagType;
 
 
+const BASIC_MEMORY_INFORMATION_TAG_SIZE: u32 = 16;
+
 struct BasicMemoryInformationTag {
 	tag_type: u32,
 	size: u32,
@@ -11,6 +13,6 @@ struct BasicMemoryInformationTag {
 impl BasicMemoryInformationTag {
 	fn is_valid(&self) -> bool {
 		(self.mem_lower <= 640) && (self.tag_type == TagType::MemoryInformation as u32)
-							    && (self.size ==16)
+							    && (self.size == BASIC_MEMORY_INFORMATION_TAG_SIZE)
 	}
 }
