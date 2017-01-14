@@ -6,7 +6,7 @@ pub enum TagType {
 	BootLoaderName    = 2,
 	Module            = 3,
 	MemoryInformation = 4,
-	BiosBootDevice    = 5,
+	BIOSBootDevice    = 5,
 	MemoryMap         = 6,
 	VBEInfo           = 7,
 	FrameBufferInfo   = 8,

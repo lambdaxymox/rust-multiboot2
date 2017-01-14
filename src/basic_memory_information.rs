@@ -11,5 +11,6 @@ struct BasicMemoryInformationTag {
 impl BasicMemoryInformationTag {
 	fn is_valid(&self) -> bool {
 		(self.mem_lower <= 640) && (self.tag_type == TagType::MemoryInformation as u32)
+							    && (self.size ==16)
 	}
 }
