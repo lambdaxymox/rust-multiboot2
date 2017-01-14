@@ -1,5 +1,6 @@
 #![no_std]
 
+/// TODO: Add sanity checks for strings, i.e. Check that they are null terminated.
 mod tag;
 mod basic_memory_information;
 mod boot_loader_name;

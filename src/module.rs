@@ -13,7 +13,7 @@ struct ModuleTag {
 	/// The ending address of the boot module.
 	mod_end: u32,    
 	/// This is the first byte of the string.
-	string: u8,      
+	string: u8,
 }
 
 impl ModuleTag {

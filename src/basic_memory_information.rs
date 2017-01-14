@@ -2,7 +2,7 @@ use tag::TagType;
 
 
 const BASIC_MEMORY_INFORMATION_TAG_SIZE: u32 = 16;
-
+#[repr(packed)]
 struct BasicMemoryInformationTag {
 	tag_type: u32,
 	size: u32,
