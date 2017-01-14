@@ -23,6 +23,6 @@ impl BootCommandLineTag {
 
 	/// Validate the input `BootLoaderNameTag`.
 	fn is_valid(&self) -> bool {
-		self.tag_type == TagType::BootLoaderName as u32
+		self.tag_type == TagType::BootCommandLine as u32
 	}
 }
