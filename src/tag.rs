@@ -14,10 +14,6 @@ const FRAME_BUFFER_INFO: u32   = 8;
 const ELF_SYMBOLS: u32        = 9;
 const APM_TABLE: u32          = 10;
 
-type TagType = u32;
-
-type TagSize = u32;
-
 
 #[repr(C)]
 struct Tag {
@@ -26,14 +22,14 @@ struct Tag {
 }
 
 impl Tag {
-	fn tag_type(&self) -> TagType {
+	fn tag_type(&self) -> u32 {
 		let ptr = self.ptr as *const u32;
 		unsafe {
 			*ptr
 		}
 	}
 
-	fn size(&self) -> TagSize {
+	fn size(&self) -> u32 {
 		let ptr = ((self.ptr as usize) + 4) as *const u32;
 		unsafe {
 			*ptr
