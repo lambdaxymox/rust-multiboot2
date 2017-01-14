@@ -16,3 +16,4 @@ mod bios_boot_device;
 mod apm_table;
 mod module;
 mod memory_map;
+mod end_tag;
