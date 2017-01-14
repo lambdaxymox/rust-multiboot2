@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+use tag::TagType;
 
 
 #[repr(C)]
@@ -9,6 +10,20 @@ struct MemoryMapTag {
 	/// This is currently set to `0`.
 	entry_version: u32,
 	first_entry: MemoryMapEntry
+}
+
+impl MemoryMapTag {
+	fn memory_map(&self) -> MemoryMapIter {
+		let ptr = self as *const MemoryMapTag;
+		let first_entry = (&self.first_entry) as *const MemoryMapEntry;
+		let final_entry = ((ptr as u64) + (self.size as u64)) as *const MemoryMapEntry;
+
+		MemoryMapIter::new(first_entry, final_entry, self.entry_size)
+	}
+
+	fn is_valid(&self) -> bool {
+		self.tag_type == TagType::MemoryMap as u32
+	}
 }
 
 #[derive(Debug)]
