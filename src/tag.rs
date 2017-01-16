@@ -24,6 +24,12 @@ pub struct Tag {
 	// The tag data follows these two fields.
 }
 
+impl Tag {
+	fn is_end_tag(&self) -> bool {
+		self.tag_type == TagType::EndTag as u32
+	}
+}
+
 pub struct TagIter {
 	current: *const Tag
 }
