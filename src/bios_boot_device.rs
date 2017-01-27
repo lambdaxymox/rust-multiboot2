@@ -31,9 +31,9 @@ impl BIOSBootDeviceTag {
 }
 
 pub struct BootDevice {
-	biosdev: u32,
-	partition: u32,
-	sub_partition: u32,
+	pub biosdev: u32,
+	pub partition: u32,
+	pub sub_partition: u32,
 }
 
 impl BootDevice {
@@ -45,11 +45,11 @@ impl BootDevice {
 		}
 	}
 
-	fn is_valid_partition(&self) -> bool {
+	pub fn is_valid_partition(&self) -> bool {
 		self.partition != UNUSED_PARTITION_NUMBER
 	}
 
-	fn is_valid_sub_partition(&self) -> bool {
+	pub fn is_valid_sub_partition(&self) -> bool {
 		self.sub_partition != UNUSED_PARTITION_NUMBER
 	}
 }
