@@ -7,7 +7,7 @@ use basic_memory_information::BasicMemoryInformationTag;
 
 
 pub unsafe fn load(multiboot_addr: u32) -> &'static MultiBootInfo  {
-    let multiboot_info = &*(multiboot_addr as *const MultiBootInfo);
+    let multiboot_info = MultiBootInfo::from_raw_parts(multiboot_addr);
     assert!(multiboot_info.has_valid_end_tag());
     multiboot_info
 }
@@ -22,17 +22,8 @@ pub struct MultiBootInfo {
 }
 
 impl MultiBootInfo {
-    unsafe fn new(multiboot_addr: u32) -> MultiBootInfo {
-        let total_size = *(multiboot_addr as *const u32);
-        let reserved = *((multiboot_addr + 4) as *const u32);
-        let first_tag = (multiboot_addr + 8) as *const Tag;
-        
-        MultiBootInfo {
-            total_size: total_size,
-            reserved: reserved,
-            first_tag: first_tag
-        }
-
+    unsafe fn from_raw_parts(multiboot_addr: u32) -> &'static MultiBootInfo {
+        &*(multiboot_addr as *const MultiBootInfo)
     }
 
     pub fn start_address(&self) -> usize {
