@@ -34,6 +34,14 @@ pub struct TagIter {
 	current: *const Tag
 }
 
+impl TagIter {
+	pub fn new(first_tag: *const Tag) -> TagIter {
+		TagIter {
+			current: first_tag 
+		}
+	}
+}
+
 impl Iterator for TagIter {
 	type Item = &'static Tag;
 

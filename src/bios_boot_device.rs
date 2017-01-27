@@ -3,8 +3,9 @@ use tag::TagType;
 
 const UNUSED_PARTITION_NUMBER: u32 = 0xFFFFFFFF;
 const BIOS_BOOT_DEVICE_TAG_SIZE: u32 = 20;
+
 #[repr(packed)]
-struct BIOSBootDeviceTag {
+pub struct BIOSBootDeviceTag {
 	tag_type: u32,
 	size: u32,
 	biosdev: u32,

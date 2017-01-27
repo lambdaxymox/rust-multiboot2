@@ -17,3 +17,5 @@ mod apm_table;
 mod module;
 mod memory_map;
 mod end_tag;
+
+pub mod multiboot;
