@@ -1,9 +1,11 @@
+use core::mem;
 use bios_boot_device::BIOSBootDeviceTag;
-use tag::{Tag, TagIter};
+use tag::{TagType, Tag, TagIter};
+use basic_memory_information::BasicMemoryInformationTag;
 
 
 #[derive(Debug)]
-#[repr(C, packed)]
+#[repr(C)]
 pub struct MultiBootInfo {
     total_size: u32,
     reserved: u32,      // Should always be 0.
@@ -36,5 +38,32 @@ impl MultiBootInfo {
         self.total_size as usize
     }
 
+    pub fn mem_lower(&self) -> Option<usize> {
+        self.find_tag(TagType::MemoryInformation)
+            .map(|tag_ptr| { 
+                unsafe {
+                    mem::transmute::<&Tag, &BasicMemoryInformationTag>(tag_ptr)
+                }
+            })
+            .map(|tag| { tag.mem_lower() })
+    }
+
+    pub fn mem_upper(&self) -> Option<usize> {
+        self.find_tag(TagType::MemoryInformation)
+            .map(|tag_ptr| {
+                unsafe {
+                    mem::transmute::<&Tag, &BasicMemoryInformationTag>(tag_ptr)
+                }
+            })
+            .map(|tag| { tag.mem_upper() })
+    }
+
+    fn tags(&self) -> TagIter {
+        TagIter::new(self.first_tag)
+    }
+
+    fn find_tag(&self, tag_type: TagType) -> Option<&'static Tag> {
+        self.tags().find(|tag| { tag.tag_type() == tag_type as usize })
+    }
 
 }

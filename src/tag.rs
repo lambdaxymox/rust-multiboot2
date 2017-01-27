@@ -2,6 +2,7 @@
 
 /// A Multiboot tag structure is a queryable blob of bytes. The implementation presently
 /// assumes that the size is at least 8 bytes (for the end tag), and does not check this.
+#[derive(Copy, Clone, Debug)]
 pub enum TagType {
 	EndTag            = 0,
 	BootCommandLine   = 1,
@@ -27,6 +28,14 @@ pub struct Tag {
 impl Tag {
 	fn is_end_tag(&self) -> bool {
 		self.tag_type == TagType::EndTag as u32
+	}
+
+	pub fn size(&self) -> usize {
+		self.size as usize
+	}
+
+	pub fn tag_type(&self) -> usize {
+		self.tag_type as usize
 	}
 }
 
