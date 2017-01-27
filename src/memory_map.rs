@@ -28,7 +28,7 @@ impl MemoryMapTag {
 
 #[derive(Debug)]
 #[repr(C, packed)]
-struct MemoryMapEntry {
+pub struct MemoryMapEntry {
 	/// The starting physical address
 	base_addr: u64,
 	/// The size of the memory region, in bytes.
@@ -40,7 +40,7 @@ struct MemoryMapEntry {
 }
 
 #[derive(Debug, PartialEq, Eq)]
-enum MemoryType {
+pub enum MemoryType {
 	Usable         = 1,
 	UsableWithACPI = 3,
 	Unusable       = 4,
