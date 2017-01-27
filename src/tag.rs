@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+use core::mem;
 
 /// A Multiboot tag structure is a queryable blob of bytes. The implementation presently
 /// assumes that the size is at least 8 bytes (for the end tag), and does not check this.
@@ -36,6 +37,13 @@ impl Tag {
 
 	pub fn tag_type(&self) -> usize {
 		self.tag_type as usize
+	}
+
+	/// The function `cast` casts a generic `Tag` to a particular
+	/// multiboot header tag. This function is really dangerous and 
+	/// should only be used for parsing the multiboot info struct.
+	pub unsafe fn cast<T>(&self) -> &T {
+		mem::transmute::<&Tag, &T>(self)
 	}
 }
 

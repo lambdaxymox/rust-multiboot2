@@ -42,7 +42,7 @@ impl MultiBootInfo {
         self.find_tag(TagType::MemoryInformation)
             .map(|tag_ptr| { 
                 unsafe {
-                    mem::transmute::<&Tag, &BasicMemoryInformationTag>(tag_ptr)
+                    tag_ptr.cast::<BasicMemoryInformationTag>()
                 }
             })
             .map(|tag| { tag.mem_lower() })
@@ -52,7 +52,7 @@ impl MultiBootInfo {
         self.find_tag(TagType::MemoryInformation)
             .map(|tag_ptr| {
                 unsafe {
-                    mem::transmute::<&Tag, &BasicMemoryInformationTag>(tag_ptr)
+                    tag_ptr.cast::<BasicMemoryInformationTag>()
                 }
             })
             .map(|tag| { tag.mem_upper() })
