@@ -39,67 +39,35 @@ impl MultiBootInfo {
     }
 
     pub fn mem_lower(&self) -> Option<usize> {
-        self.find_tag(TagType::MemoryInformation)
-            .map(|tag_ptr| { 
-                unsafe {
-                    tag_ptr.cast::<BasicMemoryInformationTag>()
-                }
-            })
+        self.cast_find_tag::<BasicMemoryInformationTag>(TagType::MemoryInformation)
             .map(|tag| { tag.mem_lower() })
     }
 
     pub fn mem_upper(&self) -> Option<usize> {
-        self.find_tag(TagType::MemoryInformation)
-            .map(|tag_ptr| {
-                unsafe {
-                    tag_ptr.cast::<BasicMemoryInformationTag>()
-                }
-            })
+        self.cast_find_tag::<BasicMemoryInformationTag>(TagType::MemoryInformation)
             .map(|tag| { tag.mem_upper() })
     }
 
     pub fn bios_boot_device(&self) -> Option<BootDevice> {
-        self.find_tag(TagType::BIOSBootDevice)
-            .map(|tag_ptr| { 
-                unsafe {
-                    tag_ptr.cast::<BIOSBootDeviceTag>()
-                }
-            })
+        self.cast_find_tag::<BIOSBootDeviceTag>(TagType::BIOSBootDevice)
             .map(|tag| {
                 BootDevice::new(tag.biosdev, tag.partition, tag.sub_partition)
             })
     }
 
     pub fn boot_cmd_line(&self) -> Option<&str> {
-        self.find_tag(TagType::BootCommandLine)
-            .map(|tag_ptr| {
-                unsafe {
-                    tag_ptr.cast::<BootCommandLineTag>()
-                }
-            })
+        self.cast_find_tag::<BootCommandLineTag>(TagType::BootCommandLine)
             .map(|tag| { tag.string() })
     }
 
     pub fn boot_loader_name(&self) -> Option<&str> {
-        self.find_tag(TagType::BootCommandLine)
-            .map(|tag_ptr| {
-                unsafe {
-                    tag_ptr.cast::<BootLoaderNameTag>()
-                }
-            })
+        self.cast_find_tag::<BootLoaderNameTag>(TagType::BootCommandLine)
             .map(|tag| { tag.string() })
     }
 
     pub fn memory_map(&self) -> Option<MemoryMapIter> {
-        self.find_tag(TagType::MemoryMap)
-            .map(|tag_ptr| {
-                unsafe {
-                    tag_ptr.cast::<MemoryMapTag>()
-                }
-            })
-            .map(|tag| {
-                tag.memory_map()
-            })
+        self.cast_find_tag::<MemoryMapTag>(TagType::MemoryMap)
+            .map(|tag| { tag.memory_map() })
     }
 
     fn has_valid_end_tag(&self) -> bool {
@@ -114,4 +82,11 @@ impl MultiBootInfo {
         self.tags().find(|tag| { tag.tag_type() == tag_type as usize })
     }
 
+    fn cast_find_tag<T>(&self, tag_type: TagType) -> Option <&T> {
+        self.find_tag(tag_type).map(|tag_ptr| {
+            unsafe {
+                tag_ptr.cast::<T>()
+            }
+        })
+    }
 }
