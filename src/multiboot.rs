@@ -1,5 +1,5 @@
 use core::mem;
-use bios_boot_device::BIOSBootDeviceTag;
+use bios_boot_device::{BIOSBootDeviceTag, BootDevice};
 use tag::{TagType, Tag, TagIter};
 use basic_memory_information::BasicMemoryInformationTag;
 
@@ -56,6 +56,18 @@ impl MultiBootInfo {
                 }
             })
             .map(|tag| { tag.mem_upper() })
+    }
+
+    pub fn bios_boot_device(&self) -> Option<BootDevice> {
+        self.find_tag(TagType::BIOSBootDevice)
+            .map(|tag_ptr| { 
+                unsafe {
+                    tag_ptr.cast::<BIOSBootDeviceTag>()
+                }
+            })
+            .map(|tag| {
+                BootDevice::new(tag.biosdev, tag.partition, tag.sub_partition)
+            })
     }
 
     fn tags(&self) -> TagIter {
