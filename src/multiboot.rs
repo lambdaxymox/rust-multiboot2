@@ -18,7 +18,7 @@ pub unsafe fn load(multiboot_addr: u32) -> &'static MultiBootInfo  {
 pub struct MultiBootInfo {
     total_size: u32,
     reserved: u32,      // Should always be 0.
-    first_tag: *const Tag
+    first_tag: Tag
 }
 
 impl MultiBootInfo {
@@ -107,7 +107,7 @@ impl MultiBootInfo {
     }
 
     fn tags(&self) -> TagIter {
-        TagIter::new(self.first_tag)
+        TagIter::new(&self.first_tag)
     }
 
     fn find_tag(&self, tag_type: TagType) -> Option<&'static Tag> {
