@@ -19,6 +19,7 @@ pub enum TagType {
 }
 
 
+#[derive(Debug)]
 #[repr(C)]
 pub struct Tag {
 	tag_type: u32,

@@ -6,6 +6,13 @@ use tag::{TagType, Tag, TagIter};
 use basic_memory_information::BasicMemoryInformationTag;
 
 
+pub unsafe fn load(multiboot_addr: u32) -> &'static MultiBootInfo  {
+    let multiboot_info = &*(multiboot_addr as *const MultiBootInfo);
+    assert!(multiboot_info.has_valid_end_tag());
+    multiboot_info
+}
+
+
 #[derive(Debug)]
 #[repr(C)]
 pub struct MultiBootInfo {
@@ -102,6 +109,10 @@ impl MultiBootInfo {
             .map(|tag| {
                 tag.memory_map()
             })
+    }
+
+    fn has_valid_end_tag(&self) -> bool {
+        true
     }
 
     fn tags(&self) -> TagIter {
