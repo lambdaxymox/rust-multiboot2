@@ -1,6 +1,7 @@
 use bios_boot_device::{BIOSBootDeviceTag, BootDevice};
 use boot_command_line::BootCommandLineTag;
 use boot_loader_name::BootLoaderNameTag;
+use memory_map::{MemoryMapTag, MemoryMapIter};
 use tag::{TagType, Tag, TagIter};
 use basic_memory_information::BasicMemoryInformationTag;
 
@@ -89,6 +90,18 @@ impl MultiBootInfo {
                 }
             })
             .map(|tag| { tag.string() })
+    }
+
+    pub fn memory_map(&self) -> Option<MemoryMapIter> {
+        self.find_tag(TagType::MemoryMap)
+            .map(|tag_ptr| {
+                unsafe {
+                    tag_ptr.cast::<MemoryMapTag>()
+                }
+            })
+            .map(|tag| {
+                tag.memory_map()
+            })
     }
 
     fn tags(&self) -> TagIter {

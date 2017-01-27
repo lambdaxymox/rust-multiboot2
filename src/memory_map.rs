@@ -3,7 +3,7 @@ use tag::TagType;
 
 
 #[repr(C)]
-struct MemoryMapTag {
+pub struct MemoryMapTag {
 	tag_type: u32,
 	size: u32,
 	entry_size: u32,
@@ -13,7 +13,7 @@ struct MemoryMapTag {
 }
 
 impl MemoryMapTag {
-	fn memory_map(&self) -> MemoryMapIter {
+	pub fn memory_map(&self) -> MemoryMapIter {
 		let ptr = self as *const MemoryMapTag;
 		let first_entry = (&self.first_entry) as *const MemoryMapEntry;
 		let final_entry = ((ptr as u64) + (self.size as u64)) as *const MemoryMapEntry;
@@ -68,7 +68,7 @@ impl MemoryMapEntry {
 	}
 }
 
-struct MemoryMapIter {
+pub struct MemoryMapIter {
 	current_entry: *const MemoryMapEntry,
 	final_entry: *const MemoryMapEntry,
 	// We need to know the entry size so we can calculate the 
