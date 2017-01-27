@@ -11,7 +11,7 @@ pub struct BootLoaderNameTag {
 
 impl BootLoaderNameTag {
 	/// Get the boot loader name.
-	fn string(&self) -> &str {
+	pub fn string(&self) -> &str {
 		let length = self.size as usize - mem::size_of::<BootLoaderNameTag>();
 		unsafe {
 			let byte_slice = slice::from_raw_parts((&self.string) as *const u8, length);
@@ -24,5 +24,9 @@ impl BootLoaderNameTag {
 	/// Validate the input `BootLoaderNameTag`.
 	fn is_valid(&self) -> bool {
 		self.tag_type == TagType::BootLoaderName as u32
+	}
+
+	pub fn size(&self) -> usize {
+		self.size as usize
 	}
 }

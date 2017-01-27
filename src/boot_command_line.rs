@@ -4,8 +4,8 @@ use core::{mem, str, slice};
 
 #[repr(packed)]
 pub struct BootCommandLineTag {
-	pub tag_type: u32,
-	pub size: u32,
+	tag_type: u32,
+	size: u32,
 	string: u8, // the first byte of the string
 }
 
@@ -24,5 +24,9 @@ impl BootCommandLineTag {
 	/// Validate the input `BootLoaderNameTag`.
 	fn is_valid(&self) -> bool {
 		self.tag_type == TagType::BootCommandLine as u32
+	}
+
+	pub fn size(&self) -> usize {
+		self.size as usize
 	}
 }

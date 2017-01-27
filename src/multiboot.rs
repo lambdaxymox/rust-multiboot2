@@ -1,6 +1,6 @@
-use core::mem;
 use bios_boot_device::{BIOSBootDeviceTag, BootDevice};
 use boot_command_line::BootCommandLineTag;
+use boot_loader_name::BootLoaderNameTag;
 use tag::{TagType, Tag, TagIter};
 use basic_memory_information::BasicMemoryInformationTag;
 
@@ -73,9 +73,19 @@ impl MultiBootInfo {
 
     pub fn boot_cmd_line(&self) -> Option<&str> {
         self.find_tag(TagType::BootCommandLine)
-            .map(|tag_ptr| { 
+            .map(|tag_ptr| {
                 unsafe {
                     tag_ptr.cast::<BootCommandLineTag>()
+                }
+            })
+            .map(|tag| { tag.string() })
+    }
+
+    pub fn boot_loader_name(&self) -> Option<&str> {
+        self.find_tag(TagType::BootCommandLine)
+            .map(|tag_ptr| {
+                unsafe {
+                    tag_ptr.cast::<BootLoaderNameTag>()
                 }
             })
             .map(|tag| { tag.string() })
