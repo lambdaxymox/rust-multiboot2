@@ -5,6 +5,7 @@ use memory_map::{MemoryMapTag, MemoryMapIter};
 use tag::{TagType, Tag, TagIter};
 use basic_memory_information::BasicMemoryInformationTag;
 use end_tag;
+use module::{ModuleIter};
 
 
 pub unsafe fn load(multiboot_addr: u32) -> &'static MultiBootInfo  {
@@ -69,6 +70,10 @@ impl MultiBootInfo {
     pub fn memory_map(&self) -> Option<MemoryMapIter> {
         self.cast_find_tag::<MemoryMapTag>(TagType::MemoryMap)
             .map(|tag| { tag.memory_map() })
+    }
+
+    pub fn modules(&self) -> ModuleIter {
+        ModuleIter::new(self.tags())
     }
 
     fn has_valid_end_tag(&self) -> bool {

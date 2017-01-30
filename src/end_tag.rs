@@ -3,6 +3,7 @@ use tag::TagType;
 
 pub const END_TAG_SIZE: usize = 8;
 
+#[repr(C, packed)]
 pub struct EndTag {
 	tag_type: u32,
 	size: u32,

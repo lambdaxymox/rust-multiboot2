@@ -1,11 +1,11 @@
-use tag::TagType;
+use tag::{Tag, TagIter, TagType};
 
 
 /// A module tag indicates to the kernel what boot was module was loaded along
 /// with the kernel image, and where it is located. One tag appears per module, 
 /// and there may be multiple module tags in a given multiboot info table.
 #[repr(C, packed)]
-struct ModuleTag {
+pub struct ModuleTag {
 	tag_type: u32,
 	size: u32,
 	/// The starting address of the boot module.
@@ -17,7 +17,7 @@ struct ModuleTag {
 }
 
 impl ModuleTag {
-	fn string(&self) -> &str {
+	pub fn string(&self) -> &str {
 		use core::{mem, str, slice};
 
 		let length = self.size as usize - mem::size_of::<ModuleTag>();
@@ -28,15 +28,36 @@ impl ModuleTag {
 		}
 	}
 
-	fn start_address(&self) -> usize {
+	pub fn start_address(&self) -> usize {
 		self.mod_start as usize
 	}
 
-	fn end_address(&self) -> usize {
+	pub fn end_address(&self) -> usize {
 		self.mod_end as usize
 	}
 
-	fn is_valid(&self) -> bool {
+	pub fn is_valid(&self) -> bool {
 		self.tag_type == TagType::Module as u32
+	}
+}
+
+pub struct ModuleIter {
+	inner: TagIter
+}
+
+impl ModuleIter {
+	pub fn new(iter: TagIter) -> ModuleIter {
+		ModuleIter {
+			inner: iter
+		}
+	}
+}
+
+impl Iterator for ModuleIter {
+	type Item = &'static ModuleTag;
+
+	fn next(&mut self) -> Option<&'static ModuleTag> {
+		self.inner.find(|tag| { tag.tag_type() == TagType::Module as usize })
+		          .map(|tag_ptr| { unsafe  { &*(tag_ptr as *const Tag as *const ModuleTag) } })
 	}
 }

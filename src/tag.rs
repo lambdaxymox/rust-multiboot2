@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 use core::mem;
 
+
 /// A Multiboot tag structure is a queryable blob of bytes. The implementation presently
 /// assumes that the size is at least 8 bytes (for the end tag), and does not check this.
 #[derive(Copy, Clone, Debug)]
