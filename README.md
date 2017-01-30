@@ -1,5 +1,5 @@
 # Rust Multiboot 2
-This repository is a Rust implementation of the Multiboot 2. In particular, it supports version 1.6 of the Multiboot 2 specification, found at
+This library is a Rust implementation of the Multiboot 2 specification. In particular, it supports version 1.6 of Multiboot 2. This is found at
 ```
 http://nongnu.askapache.com/grub/phcoder/multiboot.pdf
 ```
