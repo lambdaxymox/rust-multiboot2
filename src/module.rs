@@ -28,12 +28,12 @@ impl ModuleTag {
 		}
 	}
 
-	fn start_address(&self) -> u32 {
-		self.mod_start
+	fn start_address(&self) -> usize {
+		self.mod_start as usize
 	}
 
-	fn end_address(&self) -> u32 {
-		self.mod_end
+	fn end_address(&self) -> usize {
+		self.mod_end as usize
 	}
 
 	fn is_valid(&self) -> bool {
