@@ -4,6 +4,7 @@ use boot_loader_name::BootLoaderNameTag;
 use memory_map::{MemoryMapTag, MemoryMapIter};
 use tag::{TagType, Tag, TagIter};
 use basic_memory_information::BasicMemoryInformationTag;
+use end_tag;
 
 
 pub unsafe fn load(multiboot_addr: u32) -> &'static MultiBootInfo  {
@@ -71,7 +72,12 @@ impl MultiBootInfo {
     }
 
     fn has_valid_end_tag(&self) -> bool {
-        true
+        let end_tag_ptr = self.end_address() - end_tag::END_TAG_SIZE;
+        let end_tag = unsafe { 
+            &*(end_tag_ptr as *const end_tag::EndTag) 
+        };
+
+        end_tag.is_valid()
     }
 
     fn tags(&self) -> TagIter {
