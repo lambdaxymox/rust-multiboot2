@@ -13,7 +13,7 @@ pub struct MemoryMapTag {
 }
 
 impl MemoryMapTag {
-	pub fn memory_map(&self) -> MemoryMapIter {
+	pub fn memory_regions(&self) -> MemoryMapIter {
 		let ptr = self as *const MemoryMapTag;
 		let first_entry = (&self.first_entry) as *const MemoryMapEntry;
 		let final_entry = ((ptr as u64) + (self.size as u64)) as *const MemoryMapEntry;

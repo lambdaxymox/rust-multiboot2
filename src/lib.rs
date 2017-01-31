@@ -19,3 +19,5 @@ mod memory_map;
 mod end_tag;
 
 pub mod multiboot;
+
+pub use multiboot::load;
