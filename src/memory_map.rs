@@ -47,11 +47,11 @@ pub enum MemoryType {
 }
 
 impl MemoryMapEntry {
-	fn base_address(&self) -> u64 {
+	pub fn base_address(&self) -> u64 {
 		self.base_addr
 	}
 
-	fn length(&self) -> u64 {
+	pub fn length(&self) -> u64 {
 		self.length
 	}
 

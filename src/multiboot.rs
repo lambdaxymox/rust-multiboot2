@@ -1,7 +1,7 @@
 use bios_boot_device::{BIOSBootDeviceTag, BootDevice};
 use boot_command_line::BootCommandLineTag;
 use boot_loader_name::BootLoaderNameTag;
-use memory_map::{MemoryMapTag, MemoryMapIter};
+use memory_map::MemoryMapTag;
 use tag::{TagType, Tag, TagIter};
 use basic_memory_information::BasicMemoryInformationTag;
 use end_tag;
