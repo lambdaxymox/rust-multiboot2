@@ -1,5 +1,6 @@
-use tag::TagType;
+use tag::{TagType, VerifyTag};
 use core::{mem, str, slice};
+use util;
 
 
 #[repr(packed)]
@@ -21,12 +22,15 @@ impl BootLoaderNameTag {
 
 	}
 
-	/// Validate the input `BootLoaderNameTag`.
-	fn is_valid(&self) -> bool {
-		self.tag_type == TagType::BootLoaderName as u32
-	}
-
 	pub fn size(&self) -> usize {
 		self.size as usize
+	}
+}
+
+impl VerifyTag for BootLoaderNameTag {
+	/// Validate the input `BootLoaderNameTag`.
+	fn is_valid(&self) -> bool {
+		(self.tag_type == TagType::BootLoaderName as u32) && 
+		util::validate_cstring(self.string())
 	}
 }

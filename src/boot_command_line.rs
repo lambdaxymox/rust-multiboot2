@@ -30,6 +30,7 @@ impl BootCommandLineTag {
 impl VerifyTag for BootCommandLineTag {
 	/// Validate the input `BootLoaderNameTag`.
 	fn is_valid(&self) -> bool {
-		(self.tag_type == TagType::BootCommandLine as u32) && util::validate_c_string(self.string())
+		(self.tag_type == TagType::BootCommandLine as u32) && 
+		util::validate_cstring(self.string())
 	}
 }
