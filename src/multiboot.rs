@@ -8,7 +8,7 @@ use end_tag;
 use module::{ModuleIter};
 
 
-pub unsafe fn load(multiboot_addr: u32) -> &'static MultiBootInfo  {
+pub unsafe fn load(multiboot_addr: usize) -> &'static MultiBootInfo  {
     let multiboot_info = MultiBootInfo::from_raw_parts(multiboot_addr);
     assert!(multiboot_info.has_valid_end_tag());
     multiboot_info
@@ -24,7 +24,7 @@ pub struct MultiBootInfo {
 }
 
 impl MultiBootInfo {
-    unsafe fn from_raw_parts(multiboot_addr: u32) -> &'static MultiBootInfo {
+    unsafe fn from_raw_parts(multiboot_addr: usize) -> &'static MultiBootInfo {
         &*(multiboot_addr as *const MultiBootInfo)
     }
 
