@@ -67,9 +67,8 @@ impl MultiBootInfo {
             .map(|tag| { tag.string() })
     }
 
-    pub fn memory_map(&self) -> Option<MemoryMapIter> {
+    pub fn memory_map(&self) -> Option<&MemoryMapTag> {
         self.cast_find_tag::<MemoryMapTag>(TagType::MemoryMap)
-            .map(|tag| { tag.memory_regions() })
     }
 
     pub fn modules(&self) -> ModuleIter {
