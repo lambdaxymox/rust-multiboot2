@@ -34,10 +34,10 @@ impl VerifyTag for MemoryMapTag {
     fn is_valid(&self) -> bool {
         let mut entries = self.all_memory_regions();
 
-        (self.tag_type == TagType::MemoryMap as u32) &&
-        (self.entry_size % 8 == 0) &&
-        (self.entry_version == 0) &&
-        entries.all(|entry| entry.is_valid())
+        (self.tag_type == TagType::MemoryMap as u32) 
+            && (self.entry_size % 8 == 0) 
+            && (self.entry_version == 0) 
+            && entries.all(|entry| entry.is_valid())
     }
 }
 
