@@ -17,7 +17,7 @@ mod bios_boot_device;
 mod apm_table;
 mod module;
 mod memory_map;
-mod elf_symbols;
+mod elf_sections;
 mod end_tag;
 
 pub mod multiboot;

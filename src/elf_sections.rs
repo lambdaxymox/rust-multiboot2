@@ -1,5 +1,5 @@
 #[repr(packed)]
-struct ElfSectionTag {
+pub struct ElfSectionTag {
     tag_type: u32,
     size: u32,
     num: u16,
@@ -21,7 +21,7 @@ impl ElfSectionTag {
 }
 
 #[repr(C)]
-struct ElfSectionHeader {
+pub struct ElfSectionHeader {
     sh_name: u32,
     sh_type: u32,
     sh_flags: u64,
@@ -52,7 +52,7 @@ impl ElfSectionHeader {
     }
 }
 
-struct ElfSectionIter {
+pub struct ElfSectionIter {
     current_section: &'static ElfSectionHeader,
     section_index: u32,
     total_sections: u32,

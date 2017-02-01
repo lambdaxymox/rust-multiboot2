@@ -6,6 +6,7 @@ use tag::{TagType, Tag, TagIter, VerifyTag};
 use basic_memory_information::BasicMemoryInformationTag;
 use end_tag;
 use module::{ModuleIter};
+use elf_sections::ElfSectionTag;
 
 
 pub unsafe fn load(multiboot_addr: usize) -> &'static MultiBootInfo  {
@@ -73,6 +74,10 @@ impl MultiBootInfo {
 
     pub fn modules(&self) -> ModuleIter {
         ModuleIter::new(self.tags())
+    }
+
+    pub fn elf_sections(&self) -> Option<&ElfSectionTag> {
+        self.cast_find_tag::<ElfSectionTag>(TagType::ElfSections)
     }
 
     fn has_valid_end_tag(&self) -> bool {

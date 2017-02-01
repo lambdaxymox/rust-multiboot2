@@ -19,7 +19,7 @@ pub enum TagType {
     MemoryMap         = 6,
     VBEInfo           = 7,
     FrameBufferInfo   = 8,
-    ElfSymbols        = 9,
+    ElfSections       = 9,
     APMTable          = 10,
 }
 
