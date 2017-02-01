@@ -138,14 +138,14 @@ pub struct StringTable {
 }
 
 impl StringTable {
-    fn section_name(&self, section: &ElfSectionHeader) -> &'static str {
+    pub fn section_name(&self, section: &ElfSectionHeader) -> &'static str {
         let string_ptr = unsafe {
             (&self.first_char as *const u8).offset(section.sh_name as isize)
         };
 
         let string_length = unsafe {
             let mut length = 0;
-            let mut current_char = self.first_char;
+            let mut current_char = *string_ptr.offset(length as isize);
 
             while current_char != 0x00 {
                 length += 1;
