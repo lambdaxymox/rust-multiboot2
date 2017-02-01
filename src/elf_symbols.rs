@@ -1,8 +1,3 @@
-
-
-// Elf section headers have a fixed size.
-const ELF_SECTION_HEADER_SIZE: usize = 56;
-
 #[repr(packed)]
 struct ElfSymbolTag {
     tag_type: u32,
@@ -14,6 +9,18 @@ struct ElfSymbolTag {
     first_section: ElfSectionHeader
 }
 
+impl ElfSymbolTag {
+    pub fn elf_sections(&'static self) -> ElfSectionIter {
+        ElfSectionIter {
+            current_section: &self.first_section,
+            section_index: 0,
+            total_sections: self.num as u32,
+            entry_size: self.entsize as u64
+        }
+    }
+}
+
+#[repr(C)]
 struct ElfSectionHeader {
     sh_name: u32,
     sh_type: u32,
@@ -29,7 +36,29 @@ struct ElfSectionHeader {
 
 struct ElfSectionIter {
     current_section: &'static ElfSectionHeader,
-    final_section: &'static ElfSectionHeader, 
-    remaining_sections: u32,
-    entry_size: u32
+    section_index: u32,
+    total_sections: u32,
+    entry_size: u64
+}
+
+impl Iterator for ElfSectionIter {
+    type Item = &'static ElfSectionHeader;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.section_index >= self.total_sections {
+            return None;
+        } else {
+            let section = self.current_section;
+            let next_section_addr = 
+                (self.current_section as *const ElfSectionHeader as u64) + self.entry_size;
+            let next_section = unsafe { 
+                &*(next_section_addr as *const ElfSectionHeader) 
+            };
+
+            self.current_section = next_section;
+            self.section_index += 1;
+
+            Some(section)
+        }
+    }
 }
