@@ -7,10 +7,10 @@ const ELF_SECTION_HEADER_SIZE: u64 = 56;
 pub struct ElfSectionTag {
     tag_type: u32,
     size: u32,
-    num: u16,
-    entsize: u16,
-    shndx: u16,
-    reserved: u16,
+    num: u32,
+    entsize: u32,
+    shndx: u32,
+    //reserved: u16,
     first_section: ElfSectionHeader
 }
 
@@ -52,19 +52,15 @@ pub struct ElfSectionHeader {
 }
 
 impl ElfSectionHeader {
-    pub fn name(&self) -> usize {
-        self.sh_name as usize
-    }
-
     pub fn section_type(&self) -> usize {
         self.sh_type as usize
     }
 
-    pub fn start_address(&self) -> usize {
+    pub fn section_start_address(&self) -> usize {
         self.sh_addr as usize
     }
 
-    pub fn end_address(&self) -> usize {
+    pub fn section_end_address(&self) -> usize {
         (self.sh_addr + self.sh_size) as usize
     }
 
