@@ -54,26 +54,32 @@ pub struct ElfSectionHeader {
 }
 
 impl ElfSectionHeader {
+    /// The type of an ELF section.
     pub fn section_type(&self) -> usize {
         self.sh_type as usize
     }
 
+    /// The start address of an ELF section.
     pub fn section_start_address(&self) -> usize {
         self.sh_addr as usize
     }
 
+    /// The end address of an ELF section.
     pub fn section_end_address(&self) -> usize {
         (self.sh_addr + self.sh_size) as usize
     }
 
-    pub fn size(&self) -> usize {
+    /// The size of an ELF section in bytes.
+    pub fn section_size(&self) -> usize {
         self.sh_size as usize
     }
 
+    /// ELF section flags.
     pub fn flags(&self) -> usize {
         self.sh_flags as usize
     }
 
+    /// The size of an ELF header entry.
     pub fn entry_size(&self) -> usize {
         self.sh_entsize as usize
     }
