@@ -1,4 +1,9 @@
-#[repr(packed)]
+// The size of an ELF header tag, in bytes. This was calculated 
+// from reading the ELF format specification.
+const ELF_SECTION_HEADER_SIZE: u64 = 56;
+
+
+#[repr(C, packed)]
 pub struct ElfSectionTag {
     tag_type: u32,
     size: u32,
@@ -25,6 +30,10 @@ impl ElfSectionTag {
 
     pub fn size(&self) -> usize {
         self.size as usize
+    }
+
+    pub fn entry_size(&self) -> usize {
+        self.entsize as usize
     }
 }
 
@@ -65,6 +74,10 @@ impl ElfSectionHeader {
 
     pub fn flags(&self) -> usize {
         self.sh_flags as usize
+    }
+
+    pub fn entry_size(&self) -> usize {
+        self.sh_entsize as usize
     }
 }
 
