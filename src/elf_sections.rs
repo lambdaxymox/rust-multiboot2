@@ -50,6 +50,10 @@ impl ElfSectionHeader {
     pub fn end_address(&self) -> usize {
         (self.sh_addr + self.sh_size) as usize
     }
+
+    pub fn size(&self) -> usize {
+        self.sh_size as usize
+    }
 }
 
 pub struct ElfSectionIter {
