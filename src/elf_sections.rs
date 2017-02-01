@@ -4,14 +4,14 @@ const ELF_SECTION_HEADER_SIZE: u64 = 64;
 
 
 #[derive(Debug)]
-#[repr(packed)]
+#[repr(C, packed)]
 pub struct ElfSectionTag {
     tag_type: u32,
     size: u32,
     num: u32,
     entsize: u32,
-    shndx: u32,
-    //reserved: u16,
+    shndx: u16,
+    reserved: u16,
     first_section: ElfSectionHeader
 }
 
