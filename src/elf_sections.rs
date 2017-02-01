@@ -18,6 +18,14 @@ impl ElfSectionTag {
             entry_size: self.entsize as u64
         }
     }
+
+    pub fn section_count(&self) -> usize {
+        self.num as usize
+    }
+
+    pub fn size(&self) -> usize {
+        self.size as usize
+    }
 }
 
 #[repr(C)]
