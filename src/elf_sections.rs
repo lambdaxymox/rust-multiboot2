@@ -1,3 +1,6 @@
+use core::{slice, str}; 
+
+
 // The size of an ELF header tag, in bytes. This was calculated 
 // from reading the ELF format specification.
 const ELF_SECTION_HEADER_SIZE: u64 = 64;
@@ -35,6 +38,22 @@ impl ElfSectionTag {
 
     pub fn entry_size(&self) -> usize {
         self.entsize as usize
+    }
+
+    pub fn string_table_index(&self) -> usize {
+        self.shndx as usize
+    }
+
+    pub fn string_table(&self) -> &'static StringTable {
+        let string_table_header = unsafe {
+            (&self.first_section as *const ElfSectionHeader).offset(self.shndx as isize)
+        };
+
+        let string_table_ptr = unsafe {
+            &*((*string_table_header).section_start_address() as *const StringTable)
+        };
+
+        string_table_ptr
     }
 }
 
@@ -114,3 +133,32 @@ impl Iterator for ElfSectionIter {
     }
 }
 
+pub struct StringTable {
+    first_char: u8
+}
+
+impl StringTable {
+    fn section_name(&self, section: &ElfSectionHeader) -> &'static str {
+        let string_ptr = unsafe {
+            (&self.first_char as *const u8).offset(section.sh_name as isize)
+        };
+
+        let string_length = unsafe {
+            let mut length = 0;
+            let mut current_char = self.first_char;
+
+            while current_char != 0x00 {
+                length += 1;
+                current_char = *string_ptr.offset(length as isize);
+            }
+
+            length
+        };
+
+        let string_slice = unsafe {
+            slice::from_raw_parts(string_ptr, string_length)
+        };
+
+        str::from_utf8(string_slice).unwrap()
+    }
+}
