@@ -70,7 +70,7 @@ impl ElfSectionHeader {
     }
 
     /// The size of an ELF section in bytes.
-    pub fn section_size(&self) -> usize {
+    pub fn size_bytes(&self) -> usize {
         self.sh_size as usize
     }
 
@@ -113,3 +113,4 @@ impl Iterator for ElfSectionIter {
         }
     }
 }
+

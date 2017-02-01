@@ -11,7 +11,7 @@ use elf_sections::ElfSectionTag;
 
 pub unsafe fn load(multiboot_addr: usize) -> &'static MultiBootInfo  {
     let multiboot_info = MultiBootInfo::from_raw_parts(multiboot_addr);
-    assert!(multiboot_info.has_valid_end_tag());
+    assert!(multiboot_info.is_valid());
     multiboot_info
 }
 
@@ -103,5 +103,9 @@ impl MultiBootInfo {
                 tag_ptr.cast::<T>()
             }
         })
+    }
+
+    fn is_valid(&self) -> bool {
+        self.has_valid_end_tag()
     }
 }

@@ -4,7 +4,7 @@ use tag::{TagType, VerifyTag};
 const UNUSED_PARTITION_NUMBER: u32 = 0xFFFFFFFF;
 const BIOS_BOOT_DEVICE_TAG_SIZE: usize = 20;
 
-#[repr(packed)]
+#[repr(C, packed)]
 pub struct BIOSBootDeviceTag {
     tag_type: u32,
     size: u32,
@@ -22,24 +22,23 @@ impl BIOSBootDeviceTag {
         self.sub_partition != UNUSED_PARTITION_NUMBER
     }
 
-    fn size(&self) -> usize {
+    fn size_bytes(&self) -> usize {
         self.size as usize
     }
 }
 
 impl VerifyTag for BIOSBootDeviceTag {
     fn is_valid(&self) -> bool {
-        (self.size() == BIOS_BOOT_DEVICE_TAG_SIZE) 
+        (self.size_bytes() == BIOS_BOOT_DEVICE_TAG_SIZE) 
             && (self.tag_type == TagType::BIOSBootDevice as u32)
-            && self.is_valid_partition()
-            && self.is_valid_sub_partition()
     }
 }
 
+#[derive(Debug, Copy, Clone)]
 pub struct BootDevice {
-    pub biosdev: u32,
-    pub partition: u32,
-    pub sub_partition: u32,
+    biosdev: u32,
+    partition: u32,
+    sub_partition: u32,
 }
 
 impl BootDevice {
@@ -57,5 +56,21 @@ impl BootDevice {
 
     pub fn is_valid_sub_partition(&self) -> bool {
         self.sub_partition != UNUSED_PARTITION_NUMBER
+    }
+
+    pub fn is_valid(&self) -> bool {
+        self.is_valid_partition() && self.is_valid_sub_partition()
+    }
+
+    pub fn biosdev(&self) -> usize {
+        self.biosdev as usize
+    }
+
+    pub fn partition(&self) -> usize {
+        self.partition as usize
+    }
+
+    pub fn sub_partition(&self) -> usize {
+        self.sub_partition as usize
     }
 }
